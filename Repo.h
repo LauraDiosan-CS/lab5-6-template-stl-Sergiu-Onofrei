@@ -11,6 +11,9 @@ public:
 	Repo() {};
 	void addElem(Carte c);
 	deque<Carte> getAll();
+	void Stergere(Carte c);
+	void Modificare(Carte& c);
+	Carte getElementPoz(int i);
 	int dimensiune();
 	~Repo();
 };

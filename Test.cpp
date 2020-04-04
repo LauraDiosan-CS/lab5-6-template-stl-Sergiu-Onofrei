@@ -2,7 +2,9 @@
 #include "Carte.h"
 #include <assert.h>
 #include <iostream>
+#include <string.h>
 #include "Repo.h"
+#include "Service.h"
 void test() {
 	Carte c = Carte();
 	assert(c.getAutor() == NULL);
@@ -51,11 +53,101 @@ void testRepo() {
 	strcpy_s(s1, strlen("neimprumutat") + 1, "neimprumutat");
 	char* t1 = new char[50];
 	strcpy_s(t1, strlen("Sfarsit") + 1, "Sfarsit");
-	Carte c(p, s, t);
+	char* p2 = new char[50];
+	strcpy_s(p2, strlen("Eliade") + 1, "Eliade");
+	char* s2 = new char[50];
+	strcpy_s(s2, strlen("imprumutat") + 1, "imprumutat");
+	char* t2 = new char[50];
+	strcpy_s(t2, strlen("Enigma") + 1, "Enigma");
+	char* p3 = new char[50];
+	strcpy_s(p3, strlen("Creanga") + 1, "Creanga");
+	char* s3 = new char[50];
+	strcpy_s(s3, strlen("neimprumutat") + 1, "neimprumutat");
+	char* t3 = new char[50];
+	strcpy_s(t3, strlen("Porumbei") + 1, "Porumbei");
+	char* s4 = new char[50];
+	strcpy_s(s4, strlen("imprumutat") + 1, "imprumutat");
+	char* p4 = new char[50];
+	strcpy_s(p4, strlen("Pasarele") + 1, "Pasarele");
+	Carte c(t, p, s);
+	Carte c1(t1, p1, s1);
+	Carte c2(t2, p2, s2);
+	Carte c3(t3, p3, s3);
+	Carte c4(t3, p4, s4);
 	r.addElem(c);
 	assert(r.dimensiune() == 1);
-	Carte c1(p1, s1, t1);
 	r.addElem(c1);
 	assert(r.dimensiune() == 2);
-	cout << "a trecut" << endl;
+	r.Stergere(c1);
+	assert(r.dimensiune() == 1);
+	r.addElem(c2);
+	r.addElem(c3);
+	assert(r.dimensiune() == 3);
+	r.Modificare(c4);
+	assert(strcmp(r.getElementPoz(2).getTitlu(), c4.getTitlu()) == 0);
+	assert(strcmp(r.getElementPoz(2).getAutor(), c4.getAutor()) == 0);
+	assert(strcmp(r.getElementPoz(2).getStatus(), c4.getStatus()) == 0);
+	r.Stergere(c4);
+	r.Stergere(c2);
+	r.Stergere(c);
+	assert(r.dimensiune() == 0);
+	delete[] p;
+	delete[] s;
+	delete[] t;
+	delete[] p1;
+	delete[] s1;
+	delete[] t1;
+	delete[] p2;
+	delete[] s2;
+	delete[] t2;
+	delete[] p3;
+	delete[] s3;
+	delete[] t3;
+	delete[] p4;
+	delete[] s4;
+}
+void testService() {
+	char* p = new char[50];
+	strcpy_s(p, strlen("Ion") + 1, "Ion");
+	char* sta = new char[50];
+	strcpy_s(sta, strlen("imprumutat") + 1, "imprumutat");
+	char* t = new char[50];
+	strcpy_s(t, strlen("Painea") + 1, "Painea");
+	char* p1 = new char[50];
+	strcpy_s(p1, strlen("Vlad") + 1, "Vlad");
+	char* sta1 = new char[50];
+	strcpy_s(sta1, strlen("neimprumutat") + 1, "neimprumutat");
+	char* t1 = new char[50];
+	strcpy_s(t1, strlen("Sfarsit") + 1, "Sfarsit");
+	char* p2 = new char[50];
+	strcpy_s(p1, strlen("Mircea") + 1, "Mircea");
+	char* sta2 = new char[50];
+	strcpy_s(sta1, strlen("imprumutat") + 1, "imprumutat");
+	Carte c(t, p, sta);
+	Carte c1(t1, p1, sta1);
+	Carte c2(t1, p2, sta2);
+	Service s = Service();
+	assert(s.getSize() == 0);
+	s.AddProdus(t, p, sta);
+	assert(s.getSize() == 1);
+	assert(s.getElementPoz(0) == c);
+	s.AddProdus(t1, p1, sta1);
+	assert(s.getSize() == 2);
+	assert(s.getElementPoz(1) == c1);
+	s.Modificare(c2);
+	assert(strcmp(s.getElementPoz(1).getAutor(), c2.getAutor()) == 0);
+	assert(strcmp(s.getElementPoz(1).getStatus(), c2.getStatus()) == 0);
+	s.Stergere(c2);
+	assert(s.getSize() == 1);
+	s.Stergere(c);
+	assert(s.getSize() == 0);
+	cout << "a trecut"<<endl;
+	delete[] p;
+	delete[] sta;
+	delete[] t;
+	delete[] p1;
+	delete[] sta1;
+	delete[] t1;
+	delete[] p2;
+	delete[] sta2;
 }
