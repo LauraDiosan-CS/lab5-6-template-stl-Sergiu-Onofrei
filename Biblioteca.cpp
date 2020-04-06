@@ -6,7 +6,12 @@ int main()
     test();
     testRepo();
     testService();
-    UI u;
+    testRepoFile();
+    testImprumutare();
+    RepoFile<Carte> r;
+    r.loadFromFile("Citire.txt");
+    Service s(r);
+    UI u(s);
     u.Meniu();
     return 0;
 }

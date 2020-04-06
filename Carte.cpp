@@ -5,7 +5,7 @@ Carte::Carte() {
 	this->titlu = NULL;
 	this->status = NULL;
 }
-Carte::Carte(char* t, char* a, char* s) {
+Carte::Carte(const char* t,const char* a, const char* s) {
 	this->titlu = new char[strlen(t) + 1];
 	strcpy_s(this->titlu, strlen(t) + 1, t);
 	this->autor = new char[strlen(a) + 1];
@@ -66,5 +66,5 @@ Carte& Carte::operator=(const Carte& c) {
 	return *this;
 }
 bool Carte::operator==(const Carte& c) {
-	return strcmp(this->titlu,c.titlu) == 0 && strcmp(this->status, c.status) == 0 && strcmp(this->autor,c.autor) == 0;
+	return strcmp(this->titlu, c.titlu) == 0;
 }

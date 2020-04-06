@@ -5,6 +5,7 @@
 #include <string.h>
 #include "Repo.h"
 #include "Service.h"
+#include "RepoFile.h"
 void test() {
 	Carte c = Carte();
 	assert(c.getAutor() == NULL);
@@ -83,7 +84,7 @@ void testRepo() {
 	r.addElem(c2);
 	r.addElem(c3);
 	assert(r.dimensiune() == 3);
-	r.Modificare(c4);
+	r.Modificare(c3,c4);
 	assert(strcmp(r.getElementPoz(2).getTitlu(), c4.getTitlu()) == 0);
 	assert(strcmp(r.getElementPoz(2).getAutor(), c4.getAutor()) == 0);
 	assert(strcmp(r.getElementPoz(2).getStatus(), c4.getStatus()) == 0);
@@ -134,7 +135,7 @@ void testService() {
 	s.AddProdus(t1, p1, sta1);
 	assert(s.getSize() == 2);
 	assert(s.getElementPoz(1) == c1);
-	s.Modificare(c2);
+	s.Modificare(c1,c2);
 	assert(strcmp(s.getElementPoz(1).getAutor(), c2.getAutor()) == 0);
 	assert(strcmp(s.getElementPoz(1).getStatus(), c2.getStatus()) == 0);
 	s.Stergere(c2);
@@ -150,4 +151,55 @@ void testService() {
 	delete[] t1;
 	delete[] p2;
 	delete[] sta2;
+}
+void testRepoFile() {
+	char* t = new char[50];
+	strcpy_s(t, strlen("Painea") + 1, "Painea");
+	char* p = new char[50];
+	strcpy_s(p, strlen("Vlad") + 1, "Vlad");
+	char* sta = new char[50];
+	strcpy_s(sta, strlen("Neimprumutat") + 1, "Neimprumutat");
+	char* t1 = new char[50];
+	strcpy_s(t1, strlen("Ion") + 1, "Ion");
+	char* p1 = new char[50];
+	strcpy_s(p1, strlen("Mircea") + 1, "Mircea");
+	char* sta1 = new char[50];
+	strcpy_s(sta1, strlen("Neimprumutat") + 1, "Neimprumutat");
+	Carte c(t, p, sta);
+	Carte c1(t1, p1, sta1);
+	RepoFile<Carte> r1;
+	assert(r1.dimensiune() == 0);
+	r1.loadFromFile("Citire.txt");
+	assert(r1.dimensiune() == 4);
+	r1.addElem(c);
+	assert(r1.dimensiune() == 5);
+	assert(r1.getElementPoz(4) == c);
+	r1.Stergere(c);
+	assert(r1.dimensiune() == 4);
+	delete[] p;
+	delete[] sta;
+	delete[] t;
+	delete[] p1;
+	delete[] sta1;
+	delete[] t1;
+}
+void testImprumutare() {
+	Service s;
+	deque<Carte> aux;
+	char* p = new char[50];
+	strcpy_s(p, strlen("Ion") + 1, "Ion");
+	char* sta = new char[50];
+	strcpy_s(sta, strlen("Imprumutat") + 1, "Imprumutat");
+	char* t = new char[50];
+	strcpy_s(t, strlen("Painea") + 1, "Painea");
+	char* p1 = new char[50];
+	strcpy_s(p1, strlen("Vlad") + 1, "Vlad");
+	char* sta1 = new char[50];
+	strcpy_s(sta1, strlen("Neimprumutat") + 1, "Neimprumutat");
+	char* t1 = new char[50];
+	strcpy_s(t1, strlen("Sfarsit") + 1, "Sfarsit");
+	s.AddProdus(t, p, sta);
+	s.AddProdus(t1, p1, sta1);
+	assert(s.imprumutare(t1, aux) == 1);
+	cout << "merge proprietatea" << endl;
 }

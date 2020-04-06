@@ -1,5 +1,21 @@
 #include "UI.h"
 #include <iostream>
+UI::UI(Service& s) {
+    this->s = s;
+}
+void UI::Imprumutare(char* t, deque<Carte> aux) {
+    cout << "Dati un titlu: ";
+    cin >> t;
+    if (this->s.imprumutare(t,aux) == 1)
+        cout << "Succes";
+    if (this->s.imprumutare(t,aux) == 0)
+        cout << "Cartea nu este disponibila";
+    for (int i = 0; i < aux.size();i++) 
+    {
+        cout << aux[i]<< " ";
+    }
+  
+}
 void UI::AddCarte(char* t, char* a, char* sta) {
 	cout << "Dati un titlu al cartii: ";
 	cin >> t;
@@ -27,7 +43,8 @@ void UI::ModificareCarte(char* t, char* a, char* sta) {
 	cout << "Dati statusul cartii noi(imprumutat sau nu): ";
 	cin >> sta;
 	Carte c(t, a, sta);
-	this->s.Modificare(c);
+    Carte c1(t, "orice", "orice");
+	this->s.Modificare(c1,c);
 }
 void UI::Meniu(){
     bool val = true;
@@ -40,10 +57,12 @@ void UI::Meniu(){
     char *t2 = new char[30];
     char *a2 = new char[30];
     char *sta2 = new char[30];
+    deque<Carte> aux;
+    char* t3 = new char[30];
     int optiune;
     do
     {
-        cout << "Dati o optiune:\n0-Iesire\n1-Citire\n2-Afisare\n3-Stergere\n4-Modificare(dupa titlu): ";
+        cout << "Dati o optiune:\n0-Iesire\n1-Citire\n2-Afisare\n3-Stergere\n4-Modificare(dupa titlu)\n5-Imprumutare: ";
         cin >> optiune;
         switch (optiune) {
         case 1: {
@@ -62,6 +81,9 @@ void UI::Meniu(){
         case 4: {
             ModificareCarte(t2, a2, sta2);
             break;
+        }
+        case 5: {
+            Imprumutare(t3, aux);break;
         }
         case 0: {val = false;break;}
         }
